@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# Virtual environments (this project's venv lives outside the repo, at
+# ~/venvs/it-support-llm, but ignore one here too in case someone creates it)
+.venv/
+venv/
+env/
+
+# Environment / secrets
+.env
+.env.*
+*.pem
+*.key
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Hugging Face / pip / torch caches (should never live inside the repo)
+.cache/
+*/.cache/
+
+# --- Model weights ---
+# The base model (Qwen2.5-7B-Instruct) is downloaded from Hugging Face Hub on
+# first run and cached outside this repo — never committed here.
+#
+# The trained LoRA adapter's large binary files (safetensors weights, the
+# optimizer state, and copied-over base-model tokenizer files) are excluded
+# to keep the repo small and fast to clone. Reproduce them with:
+#   python src/train.py --output-dir models/it-support-lora
+# (~7 minutes on a single consumer GPU; see README for details). The small, genuinely
+# useful reproducibility artifacts (exact hyperparameters and the full loss
+# curve) ARE kept in git via the exceptions below.
+models/*
+!models/.gitkeep
+!models/it-support-lora
+models/it-support-lora/*
+!models/it-support-lora/.gitkeep
+!models/it-support-lora/training_config.json
+!models/it-support-lora/training_log.jsonl
+
+# Scratch / temp
+*.tmp
+*.bak

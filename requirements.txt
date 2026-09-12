@@ -1,0 +1,22 @@
+# Exact versions verified working together on Python 3.14 / CUDA 12.8, tested
+# on a single consumer GPU with 24GB VRAM.
+#
+# torch must be installed from PyTorch's own CUDA index, not plain PyPI:
+#   pip install torch==2.11.0+cu128 --index-url https://download.pytorch.org/whl/cu128
+# Then install the rest normally:
+#   pip install -r requirements.txt
+#
+# TRL's SFTConfig/SFTTrainer API has changed across versions (this project
+# relies on `assistant_only_loss` in SFTConfig, added in a fairly recent TRL
+# release). Do not casually upgrade trl/transformers/peft without re-checking
+# that src/train.py still builds an SFTConfig successfully — see the
+# "Technical Approach" section of the README for context.
+
+accelerate==1.15.0
+bitsandbytes==0.50.2
+datasets==5.0.1
+peft==0.20.0
+torch==2.11.0+cu128
+tqdm==4.70.0
+transformers==5.17.0
+trl==1.12.0

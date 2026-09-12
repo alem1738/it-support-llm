@@ -1,0 +1,28 @@
+{
+  "model_name": "Qwen/Qwen2.5-7B-Instruct",
+  "train_data": "data/train.jsonl",
+  "validation_data": "data/validation.jsonl",
+  "train_examples": 1120,
+  "validation_examples": 150,
+  "max_train_samples": null,
+  "num_train_epochs": 3.0,
+  "per_device_train_batch_size": 4,
+  "gradient_accumulation_steps": 4,
+  "effective_batch_size": 16,
+  "learning_rate": 0.0002,
+  "warmup_steps": 10,
+  "max_seq_length": 512,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05,
+  "lora_target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj",
+    "gate_proj",
+    "up_proj",
+    "down_proj"
+  ],
+  "seed": 42
+}
