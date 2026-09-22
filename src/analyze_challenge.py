@@ -1,29 +1,4 @@
-"""Paired comparison and error analysis for the novel challenge-set evaluation.
 
-Compares evaluation/challenge_baseline_results.csv (base model + engineered
-prompt) against evaluation/challenge_fine_tuned_results.csv (fine-tuned model
-+ minimal prompt) — both against the SAME frozen 75-example data/challenge.jsonl.
-
-This is a distinct experiment from the 230-example closed-set benchmark
-(evaluation/baseline_results.csv / evaluation/fine_tuned_results.csv) and must
-not be confused with it.
-
-Produces:
-    - A comparison table (reuses analyze_results.py's logic) with absolute
-      percentage-point change for all five metrics.
-    - Paired example-level buckets per metric (category/priority/escalation):
-      both_correct, fine_tuned_only, baseline_only, both_wrong.
-    - Confusion summaries (gold -> predicted) for category, priority, and
-      escalation target, computed separately for each condition.
-    - evaluation/challenge_paired_analysis.csv — per-example bucket labels.
-    - evaluation/challenge_error_analysis.csv — fine-tuned failures only,
-      mirroring the closed-set error_analysis.csv format.
-
-This script only reads existing result CSVs; it does not run any model.
-
-Usage:
-    python src/analyze_challenge.py
-"""
 
 from collections import Counter
 import csv
