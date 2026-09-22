@@ -1,31 +1,3 @@
-"""Evaluation framework for the IT support ticket triage model.
-
-Runs a model (base or LoRA fine-tuned) against a JSONL file of ticket
-examples, scores each prediction against the gold output, and writes
-per-example results plus aggregate metrics.
-
-Required metrics (computed over the full evaluated set, not just the subset
-where the model happened to produce valid JSON — a model that outputs
-garbage should score low, not get excluded from the denominator):
-    - Category accuracy
-    - Priority accuracy
-    - JSON validity
-    - Required field completion
-    - Escalation correctness (rubric-based: matches on escalation target,
-      not exact string, since gold escalation text includes free-form
-      conditions)
-
-Three comparable conditions, always run against the identical example set:
-    1. Raw base model, minimal prompt (no system prompt) — exploratory only.
-    2. Base model + engineered schema-description system prompt — a fair
-       "best-effort prompting" baseline.
-    3. Fine-tuned (LoRA) model + minimal training-format prompt.
-
-Usage:
-    python src/evaluate.py --data data/test.jsonl --output evaluation/exploratory_raw_base_results.csv
-    python src/evaluate.py --data data/test.jsonl --system-prompt-file prompts/baseline_system_prompt.txt --output evaluation/baseline_results.csv
-    python src/evaluate.py --data data/test.jsonl --lora-path models/it-support-lora --output evaluation/fine_tuned_results.csv
-"""
 
 import argparse
 import csv
@@ -56,12 +28,7 @@ ESCALATION_TARGETS = [
 
 
 def extract_json(text):
-    """Best-effort extraction of a JSON object from raw model output.
-
-    Handles: a bare JSON object, one wrapped in a ```json fenced block, or
-    one embedded in surrounding prose. Returns a dict, or None if nothing
-    parseable was found.
-    """
+   
     text = text.strip()
 
     try:
@@ -102,7 +69,7 @@ def extract_json(text):
 
 
 def matched_escalation_targets(text):
-    """Return the set of known escalation targets referenced in free text."""
+    
     if not isinstance(text, str):
         return set()
     text_lower = text.lower()
@@ -116,7 +83,7 @@ def matched_escalation_targets(text):
 
 
 def score_example(gold_output, raw_prediction):
-    """Score one prediction against its gold output. Returns a result dict."""
+    
     predicted = extract_json(raw_prediction)
     json_valid = isinstance(predicted, dict)
 
@@ -166,7 +133,7 @@ def load_jsonl(path):
 
 
 def evaluate(model, tokenizer, records, max_new_tokens=300, system_prompt=None):
-    """Run inference + scoring over every record. Returns a list of result rows."""
+    
     from tqdm.auto import tqdm
 
     rows = []
