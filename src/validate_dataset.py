@@ -1,12 +1,4 @@
-"""Validate IT support ticket datasets against dataset_schema.md.
 
-Usage:
-    python src/validate_dataset.py --file data/raw/initial_tickets.jsonl
-    python src/validate_dataset.py --train data/train.jsonl --validation data/validation.jsonl --test data/test.jsonl
-
-Exits with a non-zero status if any error-level issue is found. Warnings
-(e.g. class imbalance) are reported but do not fail the run.
-"""
 
 import argparse
 import json
