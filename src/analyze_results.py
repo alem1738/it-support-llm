@@ -1,16 +1,4 @@
-"""Compare baseline vs fine-tuned evaluation results and produce error analysis.
 
-Reads two evaluation CSVs produced by evaluate.py (same test set, different
-conditions), computes aggregate metrics for each programmatically, prints a
-comparison table with absolute change, and writes a breakdown of every
-fine-tuned failure to evaluation/error_analysis.csv.
-
-Usage:
-    python src/analyze_results.py \\
-        --baseline evaluation/baseline_results.csv \\
-        --fine-tuned evaluation/fine_tuned_results.csv \\
-        --error-analysis-output evaluation/error_analysis.csv
-"""
 
 import argparse
 import csv
