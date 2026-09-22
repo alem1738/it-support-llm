@@ -1,28 +1,4 @@
-"""QLoRA training pipeline for the IT support ticket triage model.
 
-Loads the base model in 4-bit (matching load_model.py), attaches a LoRA
-adapter via PEFT, and fine-tunes with TRL's SFTTrainer using
-`assistant_only_loss=True` so the model is only trained to predict the JSON
-response, not the ticket text it's given. Optimized for a single consumer GPU
-(24GB VRAM): 4-bit quantization, LoRA (not full fine-tuning), gradient
-checkpointing, and a paged 8-bit optimizer.
-
-Observability: a live tqdm progress bar (step/epoch, elapsed/remaining time
-via tqdm's own rate tracking) shows training loss, last validation loss,
-learning rate, and current VRAM usage. Every logged/evaluated point is also
-appended to `<output_dir>/training_log.jsonl` for later graphing, and the
-full set of hyperparameters is saved to `<output_dir>/training_config.json`
-for reproducibility.
-
-Recommended workflow: run a small smoke test first (a few hundred examples,
-1 epoch, to a throwaway output directory) to confirm the pipeline works end
-to end before committing to a full run, e.g.:
-
-    python src/train.py --max-train-samples 200 --num-train-epochs 1 \\
-        --output-dir models/smoke-test --eval-steps 10 --save-steps 20 --logging-steps 1
-
-    python src/train.py --output-dir models/it-support-lora
-"""
 
 import argparse
 import json
@@ -51,11 +27,7 @@ def load_jsonl(path):
 
 
 def to_conversational_dataset(records):
-    """Convert instruction/input/output records into TRL's conversational
-    format: a `messages` column of [{role, content}, ...]. SFTTrainer applies
-    the model's chat template and, with assistant_only_loss=True, masks loss
-    to the assistant turn only.
-    """
+    
     examples = []
     for record in records:
         examples.append({
