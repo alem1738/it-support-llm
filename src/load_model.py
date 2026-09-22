@@ -1,13 +1,3 @@
-"""Load the base model in 4-bit quantization and confirm local inference works.
-
-Model choice: Qwen2.5-7B-Instruct
-    - Apache 2.0 license (no gated access request, unlike Llama 3.x)
-    - Strong instruction-following, widely used for structured-output tasks
-    - Native Transformers/PEFT/bitsandbytes support, fits comfortably in 24GB VRAM at 4-bit
-
-Usage:
-    python src/load_model.py
-"""
 
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
